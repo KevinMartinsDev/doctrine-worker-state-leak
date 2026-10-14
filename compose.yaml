@@ -1,0 +1,18 @@
+services:
+  # Symfony booted once, every request served by the same FrankenPHP worker
+  worker:
+    build: .
+    ports:
+      - "127.0.0.1:8380:80"
+    environment:
+      SERVER_NAME: ":80"
+      FRANKENPHP_CONFIG: "worker ./public/index.php 1"
+
+  # Same image in classic mode: a fresh application for every request
+  classic:
+    build: .
+    ports:
+      - "127.0.0.1:8381:80"
+    environment:
+      SERVER_NAME: ":80"
+      FRANKENPHP_CONFIG: ""
